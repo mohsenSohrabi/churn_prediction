@@ -30,8 +30,10 @@ def encode_yes_no_columns(cols , train_data, test_data):
     mapping = {'yes': 1, 'no': 0}
     
     # apply the mapping to the specified columns in the train and test data
-    train_data[cols] = train_data[cols].applymap(mapping.get)
-    test_data[cols] = test_data[cols].applymap(mapping.get)
+    train_data[cols] = train_data[cols].applymap(mapping.get).astype(int)
+    # test data does not include 'churn' and we need to exclude it
+    cols = [col for col in cols if col != 'churn']
+    test_data[cols] = test_data[cols].applymap(mapping.get).astype(int)
     
     return train_data, test_data
 
